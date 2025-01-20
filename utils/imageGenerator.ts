@@ -54,11 +54,11 @@ export async function generateImage(params: {
   const marketWidth = ctx.measureText(marketTxt).width
 
   // 绘制文字
-  ctx.font = 'bold 36px Alexandria'
+  ctx.font = 'bold 36px'
   ctx.fillStyle = whiteColor
   ctx.fillText(marketTxt, 44, 170)
 
-  ctx.font = 'bold 68px Alexandria'
+  ctx.font = 'bold 68px'
   ctx.fillStyle = pnlColor
   ctx.fillText(`${netPnl}`, 44, 268)
 
@@ -72,7 +72,7 @@ export async function generateImage(params: {
     params.leverage
   }X`
   // 获取文字宽度
-  ctx.font = 'bold 16px Alexandria'
+  ctx.font = 'bold 16px'
   const textWidth = ctx.measureText(text).width
 
   // 计算右边距，使其与左边距对等，并缩小10
@@ -95,35 +95,35 @@ export async function generateImage(params: {
   ctx.fillStyle = pnlColor
   ctx.fillText(text, x + padding, y + 24)
 
-  ctx.font = 'normal 20px Alexandria'
+  ctx.font = 'normal 20px'
   ctx.fillStyle = grayColor
   ctx.fillText(`Entry Price`, 44, 330)
 
-  ctx.font = 'normal 20px Alexandria'
+  ctx.font = 'normal 20px'
   ctx.fillStyle = whiteColor
   ctx.fillText(`$${params.entryPrice}`, 44, 360)
 
-  ctx.font = 'normal 20px Alexandria'
+  ctx.font = 'normal 20px'
   ctx.fillStyle = grayColor
   ctx.fillText(`Mark Price`, 210, 330)
 
-  ctx.font = 'normal 20px Alexandria'
+  ctx.font = 'normal 20px'
   ctx.fillStyle = whiteColor
   ctx.fillText(`$${params.marketPrice}`, 210, 360)
 
-  ctx.font = 'normal 16px Alexandria'
+  ctx.font = 'normal 16px'
   ctx.fillStyle = grayColor
   ctx.fillText(`Referral Code`, 160, 458)
 
-  ctx.font = 'bold 20px Alexandria'
+  ctx.font = 'bold 20px'
   ctx.fillStyle = whiteColor
   ctx.fillText(`${referralCode}`, 160, 495)
 
-  ctx.font = 'normal 16px Alexandria'
+  ctx.font = 'normal 16px'
   ctx.fillStyle = grayColor
   ctx.fillText(`Enjoy the lowest trading fees now!`, 160, 528)
 
-  ctx.font = 'bold 16px Alexandria'
+  ctx.font = 'bold 16px'
   ctx.fillStyle = grayColor
   ctx.fillText(
     moment(Number(params.timestamp)).format('YYYY-MM-DD HH:mm'),
