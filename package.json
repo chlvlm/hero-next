@@ -3,19 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev -p 4455",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.115.0",
+    "@react-three/fiber": "^8.17.10",
+    "@reown/appkit-adapter-wagmi": "^1.0.1",
+    "@tanstack/react-query": "^5.56.2",
+    "canvas": "^3.0.1",
+    "moment": "^2.30.1",
     "next": "14.2.4",
+    "qrcode": "^1.5.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-swipeable": "^7.0.1"
+    "react-swipeable": "^7.0.1",
+    "three": "^0.170.0",
+    "viem": "^2.21.9",
+    "wagmi": "^2.12.12"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22.5.5",
+    "@types/qrcode": "^1.5.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
