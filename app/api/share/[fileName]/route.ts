@@ -1,5 +1,5 @@
-import { generateImage } from '@/utils/imageGenerator'
 import { NextRequest } from 'next/server'
+import { generateImage } from '@/utils/imageGenerator'
 
 export async function GET(
   request: NextRequest,
@@ -37,7 +37,7 @@ export async function GET(
       return new Response('Missing required parameters', { status: 400 })
     }
 
-    const imageBuffer = await generateImage({
+    const buffer = await generateImage({
       account,
       market,
       collateral,
@@ -50,7 +50,7 @@ export async function GET(
       entryPrice,
     })
 
-    return new Response(imageBuffer, {
+    return new Response(buffer, {
       headers: {
         'Content-Type': 'image/png',
         'Cache-Control': 'public, max-age=31536000',
