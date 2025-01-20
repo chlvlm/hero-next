@@ -14,7 +14,7 @@ export async function generateImage(params: {
   leverage: string
   marketPrice: string
   entryPrice: string
-}): Promise<string> {
+}): Promise<Buffer> {
   const scaleFactor = 2
   const originalWidth = 1024
   const originalHeight = 582
@@ -31,108 +31,101 @@ export async function generateImage(params: {
   const whiteColor = '#ffffff'
   const grayColor = '#52525B'
   const referralCode = '11X8TZ02'
-  let qrCodeDataUrl
-  try {
-    qrCodeDataUrl = await QRCode.toDataURL(
-      `https://azex.io?referralCode=${referralCode}`
-    )
-  } catch (qrCodeError) {
-    console.error('QR code generation failed:', qrCodeError)
-    return ''
-  }
 
   try {
+    // 加载背景图像
     const bgImage = await loadImage(
       path.join(process.cwd(), 'public', `share-${params.trend}-twitter.png`)
     )
-    ctx.drawImage(bgImage, 0, 0, 1024, 582)
-  } catch (imageError) {
-    console.error('Background image loading failed:', imageError)
-    return ''
-  }
-  const marketTxt = `${params.market} / ${params.collateral} Perp`
-  const marketWidth = ctx.measureText(marketTxt).width
+    ctx.drawImage(bgImage, 0, 0, originalWidth, originalHeight)
 
-  // 绘制文字
-  ctx.font = 'bold 36px Alexandria'
-  ctx.fillStyle = whiteColor
-  ctx.fillText(marketTxt, 44, 170)
+    // 绘制文字
+    const marketTxt = `${params.market} / ${params.collateral} Perp`
+    const marketWidth = ctx.measureText(marketTxt).width
 
-  ctx.font = 'bold 68px Alexandria'
-  ctx.fillStyle = pnlColor
-  ctx.fillText(`${netPnl}`, 44, 268)
+    ctx.font = 'bold 36px Alexandria'
+    ctx.fillStyle = whiteColor
+    ctx.fillText(marketTxt, 44, 170)
 
-  ctx.fillStyle =
-    params.trend === 'profit'
-      ? 'rgba(131, 247, 164, 0.10)'
-      : 'rgba(244, 63, 94, 0.10)'
-  const x = 4 * marketWidth + 80 // 设置x值
-  const y = 142 // 设置y值
-  const text = `${params.isLong === 'true' ? 'LONG' : 'SHORT'} ${
-    params.leverage
-  }X`
-  // 获取文字宽度
-  ctx.font = 'bold 16px Alexandria'
-  const textWidth = ctx.measureText(text).width
+    ctx.font = 'bold 68px Alexandria'
+    ctx.fillStyle = pnlColor
+    ctx.fillText(netPnl, 44, 268)
 
-  // 计算右边距，使其与左边距对等，并缩小10
-  const padding = 2 // 左右边距缩小10
-  const totalWidth = textWidth + padding * 2
+    ctx.fillStyle =
+      params.trend === 'profit'
+        ? 'rgba(131, 247, 164, 0.10)'
+        : 'rgba(244, 63, 94, 0.10)'
+    const x = 4 * marketWidth + 80 // 设置x值
+    const y = 142 // 设置y值
+    const text = `${params.isLong === 'true' ? 'LONG' : 'SHORT'} ${
+      params.leverage
+    }X`
+    // 获取文字宽度
+    ctx.font = 'bold 16px Alexandria'
+    const textWidth = ctx.measureText(text).width
 
-  ctx.beginPath()
-  ctx.moveTo(x, y) // 左上角起点
-  ctx.lineTo(x + totalWidth, y) // 右上角
-  ctx.arcTo(x + totalWidth + 12, y, x + totalWidth + 12, y + 12, 11) // 右上角圆角
-  ctx.lineTo(x + totalWidth + 12, y + 23) // 右下角，缩小内边距
-  ctx.arcTo(x + totalWidth + 12, y + 35, x + totalWidth, y + 35, 11) // 右下角圆角
-  ctx.lineTo(x, y + 35) // 左下角
-  ctx.arcTo(x - 12, y + 35, x - 12, y + 23, 11) // 左下角圆角
-  ctx.lineTo(x - 12, y + 12) // 左上角
-  ctx.arcTo(x - 12, y, x, y, 11) // 左上角圆角
-  ctx.closePath()
-  ctx.fill()
-  // 绘制文字
-  ctx.fillStyle = pnlColor
-  ctx.fillText(text, x + padding, y + 24)
+    // 计算右边距，使其与左边距对等，并缩小10
+    const padding = 2 // 左右边距缩小10
+    const totalWidth = textWidth + padding * 2
 
-  ctx.font = 'normal 20px Alexandria'
-  ctx.fillStyle = grayColor
-  ctx.fillText(`Entry Price`, 44, 330)
+    ctx.beginPath()
+    ctx.moveTo(x, y) // 左上角起点
+    ctx.lineTo(x + totalWidth, y) // 右上角
+    ctx.arcTo(x + totalWidth + 12, y, x + totalWidth + 12, y + 12, 11) // 右上角圆角
+    ctx.lineTo(x + totalWidth + 12, y + 23) // 右下角，缩小内边距
+    ctx.arcTo(x + totalWidth + 12, y + 35, x + totalWidth, y + 35, 11) // 右下角圆角
+    ctx.lineTo(x, y + 35) // 左下角
+    ctx.arcTo(x - 12, y + 35, x - 12, y + 23, 11) // 左下角圆角
+    ctx.lineTo(x - 12, y + 12) // 左上角
+    ctx.arcTo(x - 12, y, x, y, 11) // 左上角圆角
+    ctx.closePath()
+    ctx.fill()
+    // 绘制文字
+    ctx.fillStyle = pnlColor
+    ctx.fillText(text, x + padding, y + 24)
 
-  ctx.font = 'normal 20px Alexandria'
-  ctx.fillStyle = whiteColor
-  ctx.fillText(`$${params.entryPrice}`, 44, 360)
+    ctx.font = 'normal 20px Alexandria'
+    ctx.fillStyle = grayColor
+    ctx.fillText(`Entry Price`, 44, 330)
 
-  ctx.font = 'normal 20px Alexandria'
-  ctx.fillStyle = grayColor
-  ctx.fillText(`Mark Price`, 210, 330)
+    ctx.font = 'normal 20px Alexandria'
+    ctx.fillStyle = whiteColor
+    ctx.fillText(`$${params.entryPrice}`, 44, 360)
 
-  ctx.font = 'normal 20px Alexandria'
-  ctx.fillStyle = whiteColor
-  ctx.fillText(`$${params.marketPrice}`, 210, 360)
+    ctx.font = 'normal 20px Alexandria'
+    ctx.fillStyle = grayColor
+    ctx.fillText(`Mark Price`, 210, 330)
 
-  ctx.font = 'normal 16px Alexandria'
-  ctx.fillStyle = grayColor
-  ctx.fillText(`Referral Code`, 160, 458)
+    ctx.font = 'normal 20px Alexandria'
+    ctx.fillStyle = whiteColor
+    ctx.fillText(`$${params.marketPrice}`, 210, 360)
 
-  ctx.font = 'bold 20px Alexandria'
-  ctx.fillStyle = whiteColor
-  ctx.fillText(`${referralCode}`, 160, 495)
+    ctx.font = 'normal 16px Alexandria'
+    ctx.fillStyle = grayColor
+    ctx.fillText(`Referral Code`, 160, 458)
 
-  ctx.font = 'normal 16px Alexandria'
-  ctx.fillStyle = grayColor
-  ctx.fillText(`Enjoy the lowest trading fees now!`, 160, 528)
+    ctx.font = 'bold 20px Alexandria'
+    ctx.fillStyle = whiteColor
+    ctx.fillText(`${referralCode}`, 160, 495)
 
-  ctx.font = 'bold 16px Alexandria'
-  ctx.fillStyle = grayColor
-  ctx.fillText(
-    moment(Number(params.timestamp)).format('YYYY-MM-DD HH:mm'),
-    840,
-    530
-  )
+    ctx.font = 'normal 16px Alexandria'
+    ctx.fillStyle = grayColor
+    ctx.fillText(`Enjoy the lowest trading fees now!`, 160, 528)
 
-  // 插入图片
-  try {
+    ctx.font = 'bold 16px Alexandria'
+    ctx.fillStyle = grayColor
+    ctx.fillText(
+      moment(Number(params.timestamp)).format('YYYY-MM-DD HH:mm'),
+      840,
+      530
+    )
+
+    // 生成并绘制二维码
+    const qrCodeDataUrl = await QRCode.toDataURL(
+      `https://azex.io?referralCode=${referralCode}`
+    )
+    const qrImage = await loadImage(qrCodeDataUrl)
+
     const rectX = 44,
       rectY = 440,
       rectSize = 92,
@@ -164,14 +157,12 @@ export async function generateImage(params: {
     ctx.arcTo(rectX, rectY, rectX + cornerRadius, rectY, cornerRadius)
     ctx.closePath()
     ctx.clip()
-    const insertImage = await loadImage(qrCodeDataUrl)
-    ctx.drawImage(insertImage, rectX, rectY, rectSize, rectSize)
-  } catch (insertImageError) {
-    console.error('Inserted image failed to load:', insertImageError)
-    return ''
-  }
+    ctx.drawImage(qrImage, rectX, rectY, rectSize, rectSize)
+    ctx.restore()
 
-  // 将 canvas 转为 Base64 编码的图片数据 URL
-  const dataUrl = canvas.toDataURL('image/png')
-  return dataUrl
+    return canvas.toBuffer('image/png')
+  } catch (error) {
+    console.error('Image generation failed:', error)
+    return Buffer.from('')
+  }
 }

@@ -37,7 +37,7 @@ export async function GET(
       return new Response('Missing required parameters', { status: 400 })
     }
 
-    const dataUrl = await generateImage({
+    const imageBuffer = await generateImage({
       account,
       market,
       collateral,
@@ -49,9 +49,7 @@ export async function GET(
       marketPrice,
       entryPrice,
     })
-    // 将 base64 数据 URL 转换为 Buffer
-    const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '')
-    const imageBuffer = Buffer.from(base64Data, 'base64')
+
     return new Response(imageBuffer, {
       headers: {
         'Content-Type': 'image/png',
