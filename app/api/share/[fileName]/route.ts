@@ -1,5 +1,5 @@
+import { generateImage } from '@/utils/imageGenerator'
 import { NextRequest } from 'next/server'
-import { generateImage } from '../../../../utils/imageGenerator'
 
 export async function GET(
   request: NextRequest,
@@ -37,7 +37,7 @@ export async function GET(
       return new Response('Missing required parameters', { status: 400 })
     }
 
-    const buffer = await generateImage({
+    const dataUrl = await generateImage({
       account,
       market,
       collateral,
@@ -49,8 +49,10 @@ export async function GET(
       marketPrice,
       entryPrice,
     })
-
-    return new Response(buffer, {
+    // 将 base64 数据 URL 转换为 Buffer
+    const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '')
+    const imageBuffer = Buffer.from(base64Data, 'base64')
+    return new Response(imageBuffer, {
       headers: {
         'Content-Type': 'image/png',
         'Cache-Control': 'public, max-age=31536000',

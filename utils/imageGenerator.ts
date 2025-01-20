@@ -14,7 +14,7 @@ export async function generateImage(params: {
   leverage: string
   marketPrice: string
   entryPrice: string
-}): Promise<Buffer> {
+}): Promise<string> {
   const scaleFactor = 2
   const originalWidth = 1024
   const originalHeight = 582
@@ -38,7 +38,7 @@ export async function generateImage(params: {
     )
   } catch (qrCodeError) {
     console.error('QR code generation failed:', qrCodeError)
-    return Buffer.alloc(0)
+    return ''
   }
 
   try {
@@ -48,17 +48,17 @@ export async function generateImage(params: {
     ctx.drawImage(bgImage, 0, 0, 1024, 582)
   } catch (imageError) {
     console.error('Background image loading failed:', imageError)
-    return Buffer.alloc(0)
+    return ''
   }
   const marketTxt = `${params.market} / ${params.collateral} Perp`
   const marketWidth = ctx.measureText(marketTxt).width
 
   // 绘制文字
-  ctx.font = 'bold 36px'
+  ctx.font = 'bold 36px Alexandria'
   ctx.fillStyle = whiteColor
   ctx.fillText(marketTxt, 44, 170)
 
-  ctx.font = 'bold 68px'
+  ctx.font = 'bold 68px Alexandria'
   ctx.fillStyle = pnlColor
   ctx.fillText(`${netPnl}`, 44, 268)
 
@@ -72,7 +72,7 @@ export async function generateImage(params: {
     params.leverage
   }X`
   // 获取文字宽度
-  ctx.font = 'bold 16px'
+  ctx.font = 'bold 16px Alexandria'
   const textWidth = ctx.measureText(text).width
 
   // 计算右边距，使其与左边距对等，并缩小10
@@ -95,35 +95,35 @@ export async function generateImage(params: {
   ctx.fillStyle = pnlColor
   ctx.fillText(text, x + padding, y + 24)
 
-  ctx.font = 'normal 20px'
+  ctx.font = 'normal 20px Alexandria'
   ctx.fillStyle = grayColor
   ctx.fillText(`Entry Price`, 44, 330)
 
-  ctx.font = 'normal 20px'
+  ctx.font = 'normal 20px Alexandria'
   ctx.fillStyle = whiteColor
   ctx.fillText(`$${params.entryPrice}`, 44, 360)
 
-  ctx.font = 'normal 20px'
+  ctx.font = 'normal 20px Alexandria'
   ctx.fillStyle = grayColor
   ctx.fillText(`Mark Price`, 210, 330)
 
-  ctx.font = 'normal 20px'
+  ctx.font = 'normal 20px Alexandria'
   ctx.fillStyle = whiteColor
   ctx.fillText(`$${params.marketPrice}`, 210, 360)
 
-  ctx.font = 'normal 16px'
+  ctx.font = 'normal 16px Alexandria'
   ctx.fillStyle = grayColor
   ctx.fillText(`Referral Code`, 160, 458)
 
-  ctx.font = 'bold 20px'
+  ctx.font = 'bold 20px Alexandria'
   ctx.fillStyle = whiteColor
   ctx.fillText(`${referralCode}`, 160, 495)
 
-  ctx.font = 'normal 16px'
+  ctx.font = 'normal 16px Alexandria'
   ctx.fillStyle = grayColor
   ctx.fillText(`Enjoy the lowest trading fees now!`, 160, 528)
 
-  ctx.font = 'bold 16px'
+  ctx.font = 'bold 16px Alexandria'
   ctx.fillStyle = grayColor
   ctx.fillText(
     moment(Number(params.timestamp)).format('YYYY-MM-DD HH:mm'),
@@ -168,8 +168,10 @@ export async function generateImage(params: {
     ctx.drawImage(insertImage, rectX, rectY, rectSize, rectSize)
   } catch (insertImageError) {
     console.error('Inserted image failed to load:', insertImageError)
-    return Buffer.alloc(0)
+    return ''
   }
 
-  return canvas.toBuffer('image/png')
+  // 将 canvas 转为 Base64 编码的图片数据 URL
+  const dataUrl = canvas.toDataURL('image/png')
+  return dataUrl
 }
