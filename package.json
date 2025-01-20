@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.65",
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
     "@reown/appkit-adapter-wagmi": "^1.0.1",

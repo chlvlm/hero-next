@@ -1,4 +1,4 @@
-import { createCanvas, loadImage, registerFont } from 'canvas'
+import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas'
 import path from 'path'
 import QRCode from 'qrcode'
 import moment from 'moment'
@@ -19,9 +19,10 @@ export async function generateImage(params: {
   const originalWidth = 1024
   const originalHeight = 582
 
-  registerFont(path.join(process.cwd(), 'public', 'Alexandria-Bold.ttf'), {
-    family: 'Alexandria',
-  })
+  GlobalFonts.registerFromPath(
+    path.join(process.cwd(), 'public', 'Alexandria-Bold.ttf'),
+    'Alexandria'
+  )
 
   const canvas = createCanvas(
     originalWidth * scaleFactor,
