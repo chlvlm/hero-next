@@ -1,24 +1,26 @@
-import { createCanvas, loadImage, registerFont } from 'canvas'
+import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas'
 import path from 'path'
 import QRCode from 'qrcode'
 import moment from 'moment'
-
-registerFont(path.join(process.cwd(), 'public', 'Alexandria-Bold.ttf'), {
-  family: 'Alexandria-Bold',
-})
-registerFont(path.join(process.cwd(), 'public', 'Alexandria-Medium.ttf'), {
-  family: 'Alexandria-Medium',
-})
+const domain = 'https://hero-next-opal.vercel.app/'
+GlobalFonts.registerFromPath(
+  path.join(process.cwd(), 'public', 'Alexandria-Bold.ttf'),
+  'Alexandria-Bold'
+)
+GlobalFonts.registerFromPath(
+  path.join(process.cwd(), 'public', 'Alexandria-Medium.ttf'),
+  'Alexandria-Medium'
+)
 
 export async function generateImage(params: {
-  account: string
   market: string
   collateral: string
-  timestamp: string
+  timestamp: string | number
   isLong: string
   roe: string
   trend: string
   leverage: string
+  referralCode: string
   marketPrice: string
   entryPrice: string
 }): Promise<Buffer> {
@@ -37,11 +39,10 @@ export async function generateImage(params: {
   const pnlColor = params.trend === 'profit' ? '#04ca96' : '#f43f5e'
   const whiteColor = '#ffffff'
   const grayColor = '#52525B'
-  const referralCode = '11X8TZ02'
   let qrCodeDataUrl
   try {
     qrCodeDataUrl = await QRCode.toDataURL(
-      `https://azex.io?referralCode=${referralCode}`
+      `${domain}/perp?ref=${params.referralCode}`
     )
   } catch (qrCodeError) {
     console.error('QR code generation failed:', qrCodeError)
@@ -70,10 +71,10 @@ export async function generateImage(params: {
   ctx.fillText(`${netPnl}`, 44, 268)
 
   ctx.fillStyle =
-    params.trend === 'profit'
+    params.isLong === 'true'
       ? 'rgba(131, 247, 164, 0.10)'
       : 'rgba(244, 63, 94, 0.10)'
-  const x = 4 * marketWidth + 80 // 设置x值
+  const x = 400 // 设置x值
   const y = 142 // 设置y值
   const text = `${params.isLong === 'true' ? 'LONG' : 'SHORT'} ${
     params.leverage
@@ -99,7 +100,9 @@ export async function generateImage(params: {
   ctx.closePath()
   ctx.fill()
   // 绘制文字
-  ctx.fillStyle = pnlColor
+  console.log('y', y)
+
+  ctx.fillStyle = params.isLong === 'true' ? '#04ca96' : '#f43f5e'
   ctx.fillText(text, x + padding, y + 24)
 
   ctx.font = 'normal 20px Alexandria-Medium'
@@ -124,7 +127,7 @@ export async function generateImage(params: {
 
   ctx.font = 'bold 20px Alexandria-Bold'
   ctx.fillStyle = whiteColor
-  ctx.fillText(`${referralCode}`, 160, 495)
+  ctx.fillText(`${params.referralCode}`, 160, 495)
 
   ctx.font = 'normal 16px Alexandria-Medium'
   ctx.fillStyle = grayColor

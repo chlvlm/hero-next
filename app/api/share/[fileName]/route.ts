@@ -1,5 +1,5 @@
-import { NextRequest } from 'next/server'
 import { generateImage } from '@/utils/imageGenerator'
+import { NextRequest } from 'next/server'
 
 export async function GET(
   request: NextRequest,
@@ -15,37 +15,36 @@ export async function GET(
     }
 
     const parts = params.fileName.replace('.png', '').split('-')
-    if (parts.length !== 10) {
+    if (parts.length !== 9) {
       return new Response('Invalid filename format', { status: 400 })
     }
 
     const [
-      account,
       market,
       collateral,
-      timestamp,
       isLong,
       roe,
       trend,
       leverage,
+      referralCode,
       marketPrice,
       entryPrice,
     ] = parts
 
     // Validate required parameters
-    if (!account || !market || !roe || !entryPrice || !marketPrice) {
+    if (!market || !roe || !entryPrice || !marketPrice) {
       return new Response('Missing required parameters', { status: 400 })
     }
 
     const buffer = await generateImage({
-      account,
       market,
       collateral,
-      timestamp,
+      timestamp: new Date().getTime(),
       isLong,
       roe,
       trend,
       leverage,
+      referralCode,
       marketPrice,
       entryPrice,
     })
