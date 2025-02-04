@@ -28,11 +28,7 @@ export default function SharePage({ params }: Props) {
   const imageUrl = `${domain}/api/share/${params.fileName}`
   return (
     <div className="flex justify-center items-center h-screen">
-      <img
-        src={imageUrl}
-        alt="Share a Position on Twitter"
-        className="h-auto max-w-full"
-      />
+      <img src={imageUrl} alt="" className="h-full max-w-full" />
     </div>
   )
 }

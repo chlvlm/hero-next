@@ -14,7 +14,8 @@ export default function Page() {
     
 This might be the FIRST batch of #DeFi projects on #Berachain to publicly offer rewards and #BugBounty on its testnet! 😱
     
-Invite link: `
+Invite link: https://azex.io/ref=marmot88\n
+`
           )
 
           // Twitter 分享链接，增加 `imageUrl` 作为分享内容
