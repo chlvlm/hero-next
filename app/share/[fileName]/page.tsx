@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Image from 'next/image'
 
 type Props = {
   params: { fileName: string }
@@ -26,7 +25,7 @@ export default function SharePage({ params }: Props) {
   const imageUrl = `https://hero-next-opal.vercel.app/api/share/${params.fileName}`
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <Image
+      <img
         src={imageUrl}
         alt="Trade Share Image"
         className="max-w-full h-auto"
