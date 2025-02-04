@@ -18,26 +18,21 @@ export default function RootLayout({
           content="This might be the FIRST batch of #DeFi projects on #Berachain to publicly offer rewards and #BugBounty on its testnet!"
         />
         <meta
+          property="og:domain"
+          content="https://hero-next-opal.vercel.app"
+        />
+        <meta
+          name="twitter:url"
+          content={
+            'https://hero-next-opal.vercel.app/api/share/BTC-AZT-true-17.46-loss-5.89-marmot88-101333.8503-104425.6167.png'
+          }
+        />
+        <meta
           name="twitter:image"
           content={
             'https://hero-next-opal.vercel.app/api/share/BTC-AZT-true-17.46-loss-5.89-marmot88-101333.8503-104425.6167.png'
           }
         />
-
-        {/* Open Graph metadata */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Join the @azex_io testnet! 🚀" />
-        <meta
-          property="og:description"
-          content="This might be the FIRST batch of #DeFi projects on #Berachain to publicly offer rewards and #BugBounty on its testnet!"
-        />
-        <meta
-          property="og:image"
-          content={
-            'https://hero-next-opal.vercel.app/api/share/BTC-AZT-true-17.46-loss-5.89-marmot88-101333.8503-104425.6167.png'
-          }
-        />
-        <meta property="og:url" content="https://hero-next-opal.vercel.app" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0"
