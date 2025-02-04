@@ -13,7 +13,7 @@ export function generateMetadata({ params }: Props): Metadata {
       images: [imageUrl],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary_large_image', // 重要，告诉 Twitter 这是一个包含大图的卡片
       title: 'Trade Share',
       description: 'Check out this trading insight',
       images: [imageUrl],
