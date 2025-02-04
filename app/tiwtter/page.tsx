@@ -16,7 +16,7 @@ export default function Page() {
 
           // Twitter 分享链接，增加 `imageUrl` 作为分享内容
           const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${encodeURIComponent(
-            'https://hero-next-opal.vercel.app/share/BTC-AZT-true-17.46-loss-5.89-marmot88-101333.8503-104425.6167'
+            'https://hero-next-opal.vercel.app/share/BTC-AZT-true-17.46-loss-5.89-marmot88-101333.8503-104425.6167.png'
           )}`
 
           window.open(tweetUrl, '_blank')
