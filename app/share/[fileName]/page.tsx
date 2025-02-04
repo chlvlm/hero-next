@@ -30,8 +30,8 @@ export default function SharePage({ params }: Props) {
     <div className="flex justify-center items-center h-screen">
       <img
         src={imageUrl}
-        alt="Trade Share Image"
-        className="max-w-full h-auto"
+        alt="Share a Position on Twitter"
+        className="h-auto max-w-full"
       />
     </div>
   )
