@@ -6,7 +6,6 @@ export default function page() {
       <w3m-account-button />
       <w3m-network-button />
       <w3m-network-button />
-      <w3m-onramp-widget />
     </div>
   )
 }
