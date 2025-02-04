@@ -1,6 +1,13 @@
 import { generateImage } from '@/utils/imageGenerator'
+import { NextRequest } from 'next/server'
 
-export async function GET({ params }: { params: { fileName: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { fileName: string } }
+) {
+  const ip = request.headers.get('X-Forwarded-For')
+  console.log('ip', ip)
+
   try {
     // Validate filename format
     if (!params.fileName.endsWith('.png')) {
