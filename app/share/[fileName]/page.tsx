@@ -10,13 +10,13 @@ export function generateMetadata({ params }: Props): Metadata {
   const description =
     'Share your position picture and referral link on Twitter.'
   return {
-    title,
     description,
     openGraph: {
       images: [imageUrl],
     },
     twitter: {
       card: 'summary_large_image', // 重要，告诉 Twitter 这是一个包含大图的卡片
+      title,
       description,
       images: [imageUrl],
     },
