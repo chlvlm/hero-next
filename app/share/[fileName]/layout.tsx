@@ -3,8 +3,8 @@ import { Metadata } from 'next'
 type Props = {
   params: { fileName: string }
 }
-const domain = 'https://hero-next-opal.vercel.app'
 export function generateMetadata({ params }: Props): Metadata {
+  const domain = 'https://hero-next-opal.vercel.app'
   const imageUrl = `${domain}/api/share/${params.fileName}`
   const title = 'Share a Position on Twitter'
   const description =
@@ -21,4 +21,8 @@ export function generateMetadata({ params }: Props): Metadata {
       images: [imageUrl],
     },
   }
+}
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
 }
