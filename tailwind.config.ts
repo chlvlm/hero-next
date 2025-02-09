@@ -1,3 +1,4 @@
+import { heroui } from '@heroui/react'
 import type { Config } from 'tailwindcss'
 import plugin from 'tailwindcss/plugin'
 
@@ -7,6 +8,7 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -21,7 +23,9 @@ const config: Config = {
       },
     },
   },
+  darkMode: 'class',
   plugins: [
+    heroui(),
     plugin(({ addUtilities }) => {
       const newUtilities = {
         '.ellipsis-2': {
