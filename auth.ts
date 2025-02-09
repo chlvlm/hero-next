@@ -9,8 +9,10 @@ const authOptions: AuthOptions = {
       version: '2.0',
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth-login',
+    error: '/auth-login',
   },
   callbacks: {
     async jwt({ token, user, account }) {
@@ -40,6 +42,19 @@ const authOptions: AuthOptions = {
     colorScheme: 'auto',
     brandColor: '#00acee',
     logo: '/twitter.svg',
+  },
+  cookies: {
+    sessionToken: {
+      name: `${
+        process.env.NODE_ENV === 'production' ? '__Secure-' : ''
+      }next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
   },
 }
 

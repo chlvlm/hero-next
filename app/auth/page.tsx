@@ -78,7 +78,7 @@ export default function AuthLogin() {
 
           <div className="flex flex-col gap-2">
             <Button
-              onPress={() => signIn('twitter', { callbackUrl: '/auth-login' })}
+              onPress={() => signIn('twitter', { callbackUrl: '/' })}
               className="w-full"
               color="default"
               variant="bordered"
