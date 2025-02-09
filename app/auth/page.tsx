@@ -8,13 +8,15 @@ import {
   Divider,
   Input,
 } from '@heroui/react'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useState } from 'react'
 
 export default function AuthLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const session = useSession()
 
   const handleCustomLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,7 +36,7 @@ export default function AuthLogin() {
   }
 
   return (
-    <div className="my-auto flex h-full w-full items-center justify-center py-80">
+    <div className="my-auto flex h-full flex-col w-full items-center justify-center py-72">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col gap-2 p-6">
           <h1 className="text-center text-2xl font-bold">登录</h1>
@@ -89,6 +91,7 @@ export default function AuthLogin() {
           </div>
         </CardBody>
       </Card>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
     </div>
   )
 }
