@@ -1,5 +1,5 @@
 'use client'
-import { TwitterIcon } from '@/components/icons'
+import { GithubIcon, TwitterIcon } from '@/components/icons'
 import { EmailModalType } from '@/types/auth'
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   Input,
 } from '@heroui/react'
 import { Eye, EyeOff } from 'lucide-react'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { useMemo, useState } from 'react'
 
 const LoginInput = ({
@@ -20,16 +20,17 @@ const LoginInput = ({
   type = 'text',
   onChange,
   error,
+  value,
 }: {
   label: string
   endContent?: React.ReactNode
   error?: string
   type?: 'text' | 'password'
   onChange: (value: string) => void
+  value: string
 }) => {
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
-  const [value, setValue] = useState('')
   return (
     <Input
       label={label}
@@ -40,7 +41,6 @@ const LoginInput = ({
       isInvalid={!!error}
       onChange={(e) => {
         const val = e.target.value.replace(/[\u4e00-\u9fa5]/g, '')
-        setValue(val)
         onChange(val)
       }}
       endContent={
@@ -68,8 +68,8 @@ const LoginInput = ({
 }
 
 export default function AuthLogin() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('test@example.com')
+  const [password, setPassword] = useState('123456')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [emailVerifyCode, setEmailVerifyCode] = useState('')
   const [error, setError] = useState('')
@@ -115,10 +115,11 @@ export default function AuthLogin() {
         </CardHeader>
         <CardBody className="flex flex-col gap-4 p-6">
           <form onSubmit={handleCustomLogin} className="flex flex-col gap-4">
-            <LoginInput label="Email" onChange={setEmail} />
+            <LoginInput label="Email" value={email} onChange={setEmail} />
             <div className="flex flex-col">
               <LoginInput
                 label="Password"
+                value={password}
                 type="password"
                 onChange={setPassword}
               />
@@ -133,6 +134,7 @@ export default function AuthLogin() {
               <>
                 <LoginInput
                   label="Confirm Password"
+                  value={confirmPassword}
                   type="password"
                   onChange={(val) => {
                     if (val !== password) {
@@ -148,6 +150,7 @@ export default function AuthLogin() {
                 />
 
                 <LoginInput
+                  value={emailVerifyCode}
                   label="Verification Code"
                   onChange={setEmailVerifyCode}
                   endContent={
@@ -200,7 +203,7 @@ export default function AuthLogin() {
 
           <div className="flex flex-col gap-2">
             <Button
-              onPress={() => signIn('twitter', { callbackUrl: '/' })}
+              onPress={() => signIn('twitter', { callbackUrl: '/auth' })}
               className="w-full"
               color="default"
               variant="bordered"
@@ -209,9 +212,20 @@ export default function AuthLogin() {
             >
               Login with Twitter
             </Button>
+            <Button
+              onPress={() => signIn('github', { callbackUrl: '/auth' })}
+              className="w-full"
+              color="default"
+              variant="bordered"
+              startContent={<GithubIcon />}
+              radius="full"
+            >
+              Login with Github
+            </Button>
           </div>
         </CardBody>
       </Card>
+      {session.data && <Button onPress={() => signOut()}>Sign Out</Button>}
     </div>
   )
 }
