@@ -23,6 +23,8 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const session = useSession()
+  const [typeName, setTypeName] = useState(EmailCardType.Login)
+  const isLogin = useMemo(() => typeName === EmailCardType.Login, [typeName])
   const handleCustomLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -30,7 +32,7 @@ export default function AuthLogin() {
       const result = await signIn('credentials', {
         email,
         password,
-        type: 'login',
+        type: isLogin ? 'login' : 'signup',
         redirect: true,
         callbackUrl: '/auth',
       })
@@ -41,10 +43,6 @@ export default function AuthLogin() {
       setIsLoading(false)
     }
   }
-
-  const [typeName, setTypeName] = useState(EmailCardType.Login)
-
-  const isLogin = useMemo(() => typeName === EmailCardType.Login, [typeName])
 
   return (
     <div className="my-auto flex h-full flex-col w-full items-center justify-center py-20 gap-5">
@@ -83,7 +81,8 @@ export default function AuthLogin() {
                   onChange={() => {}}
                   endContent={
                     <Button
-                      className="text-sm font-semibold text-primary-600 data-[active=true]:bg-transparent data-[hover=true]:bg-transparent"
+                      className="text-sm font-semibold text-primary data-[hover=true]:bg-transparent"
+                      radius="full"
                       variant="light"
                       onPress={() => {}}
                     >

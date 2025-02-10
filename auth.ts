@@ -20,7 +20,7 @@ async function verifyUser(
     if (
       email === 'test@example.com' &&
       password === '123456' &&
-      email_verify_code === '123456'
+      email_verify_code === '1234'
     ) {
       return user
     }
