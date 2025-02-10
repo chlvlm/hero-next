@@ -39,14 +39,14 @@ export default function AuthLogin() {
     <div className="my-auto flex h-full flex-col w-full items-center justify-center py-72">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col gap-2 p-6">
-          <h1 className="text-center text-2xl font-bold">登录</h1>
-          <p className="text-center text-sm">请登录您的账户以继续</p>
+          <h1 className="text-center text-2xl font-bold">Login</h1>
+          <p className="text-center text-sm">Please login to continue</p>
         </CardHeader>
         <CardBody className="flex flex-col gap-4 p-6">
           <form onSubmit={handleCustomLogin} className="flex flex-col gap-4">
             <Input
               type="email"
-              label="邮箱"
+              label="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -54,26 +54,27 @@ export default function AuthLogin() {
 
             <Input
               type="password"
-              label="密码"
+              label="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
 
             <Button
+              radius="full"
               type="submit"
               color="primary"
               isLoading={isLoading}
               className="w-full"
             >
-              登录
+              Login
             </Button>
           </form>
 
           <div className="my-4 flex items-center gap-2">
             <Divider className="flex-1" />
 
-            <span className="text-sm text-gray-500">或</span>
+            <span className="text-sm text-gray-500">or</span>
 
             <Divider className="flex-1" />
           </div>
@@ -85,8 +86,9 @@ export default function AuthLogin() {
               color="default"
               variant="bordered"
               startContent={<TwitterIcon />}
+              radius="full"
             >
-              使用 Twitter 登录
+              Login with Twitter
             </Button>
           </div>
         </CardBody>

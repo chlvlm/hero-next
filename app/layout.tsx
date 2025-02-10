@@ -1,7 +1,7 @@
 import ContextProvider from '@/context'
+import Provider from '@/provider'
 import { headers } from 'next/headers'
 import './globals.scss'
-import NextAuthProvider from './provider'
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,7 +18,7 @@ export default function RootLayout({
       </head>
       <body>
         <ContextProvider cookies={cookies}>
-          <NextAuthProvider>{children}</NextAuthProvider>
+          <Provider>{children}</Provider>
         </ContextProvider>
       </body>
     </html>
