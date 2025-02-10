@@ -11,51 +11,51 @@ async function verifyUser(
   type: string,
   email_verify_code?: string
 ) {
-  const url = `${BASE_URL}/${type === 'login' ? 'login' : 'signup'}`
-  const basePrams = { email, password }
-  const params =
-    type === 'login'
-      ? basePrams
-      : {
-          ...basePrams,
-          email_verify_code,
-        }
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(params),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    console.log('response :>> ', response)
-    if (!response.ok) {
-      return null
-    }
-    const data = await response.json()
-    console.log('data :>> ', data)
-    return data
-  } catch (error) {
-    console.error('error :>> ', error)
-    return null
-  }
-  // 示例：根据 email 和 password 检查用户是否存在（实际实现需自行编写）
-  // if (type === 'login') {
-  //   const user = { id: '1', name: '张三', email } // 假设查询到该用户
-  //   if (email === 'test@example.com' && password === '123456') {
-  //     return user
+  // const url = `${BASE_URL}/${type === 'login' ? 'login' : 'signup'}`
+  // const basePrams = { email, password }
+  // const params =
+  //   type === 'login'
+  //     ? basePrams
+  //     : {
+  //         ...basePrams,
+  //         email_verify_code,
+  //       }
+  // try {
+  //   const response = await fetch(url, {
+  //     method: 'POST',
+  //     body: JSON.stringify(params),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //   console.log('response :>> ', response)
+  //   if (!response.ok) {
+  //     return null
   //   }
-  // } else {
-  //   const user = { id: '1', name: '张三', email } // 假设查询到该用户
-  //   if (
-  //     email === 'test@example.com' &&
-  //     password === '123456' &&
-  //     email_verify_code === '1234'
-  //   ) {
-  //     return user
-  //   }
+  //   const data = await response.json()
+  //   console.log('data :>> ', data)
+  //   return data
+  // } catch (error) {
+  //   console.error('error :>> ', error)
+  //   return null
   // }
-  // return null
+  // 示例：根据 email 和 password 检查用户是否存在（实际实现需自行编写）
+  if (type === 'login') {
+    const user = { id: '1', name: '张三', email } // 假设查询到该用户
+    if (email === 'test@example.com' && password === '123456') {
+      return user
+    }
+  } else {
+    const user = { id: '1', name: '张三', email } // 假设查询到该用户
+    if (
+      email === 'test@example.com' &&
+      password === '123456' &&
+      email_verify_code === '1234'
+    ) {
+      return user
+    }
+  }
+  return null
 }
 
 const authOptions: AuthOptions = {
