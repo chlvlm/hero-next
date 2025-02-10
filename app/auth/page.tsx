@@ -13,7 +13,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { signIn, useSession } from 'next-auth/react'
 import { useMemo, useState } from 'react'
 
-export enum EmailCardType {
+enum EmailCardType {
   Login = 'Log In',
   SignUp = 'Sign Up',
 }
