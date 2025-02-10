@@ -2,7 +2,6 @@ import { type AuthOptions, getServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-// 你可以在此处实现你自己的验证逻辑，例如查询数据库、调用 API 等
 async function verifyUser(
   email: string,
   password: string,
