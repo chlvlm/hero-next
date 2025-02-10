@@ -1,8 +1,39 @@
 import { type AuthOptions, getServerSession } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 import TwitterProvider from 'next-auth/providers/twitter'
+
+// 你可以在此处实现你自己的验证逻辑，例如查询数据库、调用 API 等
+async function verifyUser(email: string, password: string) {
+  // 示例：根据 email 和 password 检查用户是否存在（实际实现需自行编写）
+  const user = { id: '1', name: '张三', email } // 假设查询到该用户
+  if (email === 'test@example.com' && password === '123456') {
+    return user
+  }
+  return null
+}
 
 const authOptions: AuthOptions = {
   providers: [
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req) {
+        // 检查用户凭据
+        if (!credentials?.email || !credentials.password) {
+          return null
+        }
+        const user = await verifyUser(credentials.email, credentials.password)
+        console.log('user :>> ', user)
+        if (user) {
+          // 返回 user 对象后，NextAuth 会把其信息存入 JWT 中
+          return user
+        }
+        return null
+      },
+    }),
     TwitterProvider({
       clientId: process.env.TWITTER_ID!,
       clientSecret: process.env.TWITTER_SECRET!,

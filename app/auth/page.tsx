@@ -26,8 +26,9 @@ export default function AuthLogin() {
         email,
         password,
         redirect: true,
-        callbackUrl: '/',
+        callbackUrl: '/auth',
       })
+      console.log('result :>> ', result)
     } catch (error) {
       console.error('登录失败:', error)
     } finally {
