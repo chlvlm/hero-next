@@ -18,6 +18,55 @@ enum EmailCardType {
   SignUp = 'Sign Up',
 }
 
+const LoginInput = ({
+  label,
+  endContent = null,
+  type = 'text',
+  onChange,
+}: {
+  label: string
+  endContent?: React.ReactNode
+  type?: 'text' | 'password'
+  onChange: (value: string) => void
+}) => {
+  const [isVisible, setIsVisible] = useState(false)
+  const toggleVisibility = () => setIsVisible(!isVisible)
+  const [value, setValue] = useState('')
+  return (
+    <Input
+      label={label}
+      classNames={{ inputWrapper: 'h-[62px]' }}
+      value={value}
+      type={type === 'password' ? (isVisible ? 'text' : 'password') : type}
+      onChange={(e) => {
+        const val = e.target.value.replace(/[\u4e00-\u9fa5]/g, '')
+        setValue(val)
+        onChange(val)
+      }}
+      endContent={
+        endContent ? (
+          endContent
+        ) : type === 'password' ? (
+          <Button
+            isIconOnly
+            aria-label="toggle password visibility"
+            className="data-[hover=true]:bg-transparent"
+            variant="light"
+            radius="full"
+            onPress={toggleVisibility}
+          >
+            {isVisible ? (
+              <EyeOff className="text-default-400" />
+            ) : (
+              <Eye className="text-default-400" />
+            )}
+          </Button>
+        ) : null
+      }
+    />
+  )
+}
+
 export default function AuthLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -141,54 +190,5 @@ export default function AuthLogin() {
         </CardBody>
       </Card>
     </div>
-  )
-}
-
-export const LoginInput = ({
-  label,
-  endContent = null,
-  type = 'text',
-  onChange,
-}: {
-  label: string
-  endContent?: React.ReactNode
-  type?: 'text' | 'password'
-  onChange: (value: string) => void
-}) => {
-  const [isVisible, setIsVisible] = useState(false)
-  const toggleVisibility = () => setIsVisible(!isVisible)
-  const [value, setValue] = useState('')
-  return (
-    <Input
-      label={label}
-      classNames={{ inputWrapper: 'h-[62px]' }}
-      value={value}
-      type={type === 'password' ? (isVisible ? 'text' : 'password') : type}
-      onChange={(e) => {
-        const val = e.target.value.replace(/[\u4e00-\u9fa5]/g, '')
-        setValue(val)
-        onChange(val)
-      }}
-      endContent={
-        endContent ? (
-          endContent
-        ) : type === 'password' ? (
-          <Button
-            isIconOnly
-            aria-label="toggle password visibility"
-            className="data-[hover=true]:bg-transparent"
-            variant="light"
-            radius="full"
-            onPress={toggleVisibility}
-          >
-            {isVisible ? (
-              <EyeOff className="text-default-400" />
-            ) : (
-              <Eye className="text-default-400" />
-            )}
-          </Button>
-        ) : null
-      }
-    />
   )
 }
