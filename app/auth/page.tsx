@@ -106,7 +106,7 @@ export default function AuthLogin() {
 
   return (
     <div className="my-auto flex h-full flex-col w-full items-center justify-center py-20 gap-5">
-      <pre>{JSON.stringify(session, null, 2)}</pre>
+      {session.data && <pre>{JSON.stringify(session, null, 2)}</pre>}
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col gap-2 p-6 pb-0">
           <h1 className="text-center text-2xl font-bold">
