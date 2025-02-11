@@ -41,12 +41,12 @@ async function verifyUser(
   // }
   // 示例：根据 email 和 password 检查用户是否存在（实际实现需自行编写）
   if (type === 'login') {
-    const user = { id: '1', name: '张三', email } // 假设查询到该用户
+    const user = { id: '1', name: '张三(login)', email } // 假设查询到该用户
     if (email === 'test@example.com' && password === '123456') {
       return user
     }
   } else {
-    const user = { id: '1', name: '张三', email } // 假设查询到该用户
+    const user = { id: '1', name: '张三(signup)', email } // 假设查询到该用户
     if (
       email === 'test@example.com' &&
       password === '123456' &&
