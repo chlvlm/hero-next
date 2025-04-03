@@ -146,7 +146,7 @@ const authOptions: AuthOptions = {
       console.log('token :>> ', token)
       session.user.username = token.username as string
       session.user.accessToken = token.accessToken as string
-      return session
+      return { ...session, ...token }
     },
   },
   session: {
