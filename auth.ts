@@ -96,12 +96,13 @@ const authOptions: AuthOptions = {
       clientId: process.env.TWITTER_ID!,
       clientSecret: process.env.TWITTER_SECRET!,
       version: '2.0',
-      profile(profile) {
+      profile(profile, tokens) {
         return {
           id: profile.data.id,
           name: profile.data.name,
           screen_name: profile.data.username,
           image: profile.data.profile_image_url,
+          ...tokens,
         }
       },
       client: {
@@ -126,13 +127,26 @@ const authOptions: AuthOptions = {
     signIn: '/auth',
   },
   callbacks: {
-    async jwt({ token, user, account, profile, session, trigger, ...rest }) {
-      return { ...token, user, account, profile, session, trigger, ...rest }
+    async jwt({ token, user, account }) {
+      console.log('user :>> ', user)
+      console.log('token :>> ', token)
+      console.log('account :>> ', account)
+      if (account && user) {
+        return {
+          ...token,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+          username: account.providerAccountId,
+        }
+      }
+      return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
+      console.log('session :>> ', session)
+      console.log('token :>> ', token)
       session.user.username = token.username as string
       session.user.accessToken = token.accessToken as string
-      return { ...session, token, user }
+      return session
     },
   },
   session: {
