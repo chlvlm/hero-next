@@ -96,15 +96,15 @@ const authOptions: AuthOptions = {
       clientId: process.env.TWITTER_ID!,
       clientSecret: process.env.TWITTER_SECRET!,
       version: '2.0',
-      profile(profile, tokens) {
-        return {
-          id: profile.data.id,
-          name: profile.data.name,
-          screen_name: profile.data.username,
-          image: profile.data.profile_image_url,
-          ...tokens,
-        }
-      },
+      // profile(profile, tokens) {
+      //   return {
+      //     id: profile.data.id,
+      //     name: profile.data.name,
+      //     screen_name: profile.data.username,
+      //     image: profile.data.profile_image_url,
+      //     ...tokens,
+      //   }
+      // },
       client: {
         httpOptions: {
           timeout: 20000, // If there is an error in the terminal, the timeout time will be extended.
