@@ -4,7 +4,7 @@ type Props = {
   params: { fileName: string }
 }
 export function generateMetadata({ params }: Props): Metadata {
-  const domain = 'https://hero-next-opal.vercel.app'
+  const domain = 'https://hero-next-red.vercel.app'
   const imageUrl = `${domain}/api/share/${params.fileName}`
   const title = 'Share a Position on Twitter'
   const description =

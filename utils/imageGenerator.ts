@@ -2,7 +2,7 @@ import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas'
 import path from 'path'
 import QRCode from 'qrcode'
 import moment from 'moment'
-const domain = 'https://hero-next-opal.vercel.app'
+const domain = 'https://hero-next-red.vercel.app'
 GlobalFonts.registerFromPath(
   path.join(process.cwd(), 'public', 'Alexandria-Bold.ttf'),
   'Alexandria-Bold'

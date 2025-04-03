@@ -1,7 +1,7 @@
 type Props = {
   params: { fileName: string }
 }
-const domain = 'https://hero-next-opal.vercel.app'
+const domain = 'https://hero-next-red.vercel.app'
 
 export default function SharePage({ params }: Props) {
   const imageUrl = `${domain}/api/share/${params.fileName}`

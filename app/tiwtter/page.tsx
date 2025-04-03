@@ -1,7 +1,7 @@
 'use client'
 
 export default function Page() {
-  const domain = 'https://hero-next-opal.vercel.app'
+  const domain = 'https://hero-next-red.vercel.app'
   const imageUrl = `${domain}/share/BTC-AZT-true-17.46-loss-5.89-marmot88-101333.8503-104425.6167.png`
   return (
     <div>
