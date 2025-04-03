@@ -127,26 +127,22 @@ const authOptions: AuthOptions = {
     signIn: '/auth',
   },
   callbacks: {
-    async jwt({ token, user, account }) {
-      console.log('user :>> ', user)
-      console.log('token :>> ', token)
-      console.log('account :>> ', account)
-      if (account && user) {
-        return {
-          ...token,
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-          username: account.providerAccountId,
-        }
+    async jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token
+        token.sub = account.providerAccountId
+      }
+      if (user) {
+        token.user = { ...user }
       }
       return token
     },
     async session({ session, token }) {
       console.log('session :>> ', session)
       console.log('token :>> ', token)
-      session.user.username = token.username as string
+      // session.user.username = token.username as string
       session.user.accessToken = token.accessToken as string
-      return { ...session, ...token }
+      return { ...session, id: token.sub }
     },
   },
   session: {
