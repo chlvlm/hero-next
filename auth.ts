@@ -132,7 +132,7 @@ const authOptions: AuthOptions = {
     async session({ session, token, user }) {
       session.user.username = token.username as string
       session.user.accessToken = token.accessToken as string
-      return { ...session, ...token, ...user }
+      return { ...session, token, user }
     },
   },
   session: {
