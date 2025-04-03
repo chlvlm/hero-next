@@ -127,7 +127,7 @@ const authOptions: AuthOptions = {
     signIn: '/auth',
   },
   callbacks: {
-    async jwt({ token, account, user, profile, session, trigger }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token
         token.sub = account.providerAccountId
@@ -135,17 +135,12 @@ const authOptions: AuthOptions = {
       if (user) {
         token.user = { ...user }
       }
-      return { ...token, ...account, ...user, ...profile, ...session, trigger }
+      return token
     },
     async session({ session, token }) {
       console.log('session :>> ', session)
       console.log('token :>> ', token)
-      return {
-        ...session,
-        token,
-        id: token.sub,
-        accessToken: token.accessToken,
-      }
+      return { ...session, id: token.sub, accessToken: token.accessToken }
     },
   },
   session: {
